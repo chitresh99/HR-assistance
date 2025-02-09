@@ -3,9 +3,9 @@ from tkinter import ttk
 import tkinter as tk
 
 
-def employee_management(parent):
+def payroll_management(parent):
     dashboard_window = Toplevel(parent)
-    dashboard_window.title("Employee Management")
+    dashboard_window.title("Payroll Management")
     dashboard_window.configure(background="#FFDD95")
 
     window_width = 1000
@@ -23,7 +23,7 @@ def employee_management(parent):
     info1_label = Label(dashboard_window, text="Employee Management", fg='#3468C0', bg='#FFDD95', font=font_info1)
     info1_label.grid(row=0, column=0, columnspan=3, padx=10, pady=10, sticky='n')
 
-    info2_label = Label(dashboard_window, text="Manage your organization's employees here", fg='#3468C0', bg='#FFDD95',
+    info2_label = Label(dashboard_window, text="Manage your organization's payroll here", fg='#3468C0', bg='#FFDD95',
                         font=font_info2)
     info2_label.grid(row=1, column=0, columnspan=3, padx=10, pady=10, sticky='n')
 
@@ -41,7 +41,7 @@ def employee_management(parent):
     search_entry = Entry(dashboard_window, font=('Arial', 12))
     search_entry.grid(row=2, column=1, padx=10, pady=5, sticky='w')
 
-    columns = ("Name", "DOB", "Department", "Role", "Education", "Marks", "Experience", "Salary", "Location")
+    columns = ("Name","Full CTC","In-hand","Allowance","Bonus","Status")
     tree = ttk.Treeview(dashboard_window, columns=columns, show="headings")
 
     for col in columns:
@@ -57,11 +57,12 @@ def employee_management(parent):
     tree_scroll_x.grid(row=4, column=0, columnspan=3, sticky='ew')
 
     fake_data = [
-        ("Krishna Kaul", "1990-05-14", "HR", "Manager", "MBA", "85%", "10 years", "$80,000", "New York"),
-        ("Dilin Nair", "1985-08-23", "IT", "Developer", "B.Tech", "90%", "8 years", "$95,000", "San Francisco"),
-        ("Vivek Arora", "1992-12-05", "Marketing", "Executive", "BBA", "88%", "6 years", "$70,000", "Los Angeles"),
-        ("Vivian Divine", "1988-07-19", "Finance", "Analyst", "M.Com", "92%", "9 years", "$85,000", "Chicago"),
-        ("Marshal Mathers", "1995-04-30", "Sales", "Representative", "BA", "80%", "4 years", "$60,000", "Miami")
+        ("Krishna Kaul", "$120,000", "$85,000", "$5,000", "$10,000", "Active"),
+        ("Dilin Nair", "$95,000", "$70,000", "$4,000", "$7,500", "Active"),
+        ("Vivian Divine", "$75,000", "$55,000", "$3,000", "$5,000", "On Leave"),
+        ("Marshal Mathers", "$110,000", "$80,000", "$6,000", "$12,000", "Active"),
+        ("Kendrick Lamar", "$130,000", "$95,000", "$7,000", "$15,000", "Resigned"),
+        ("Frank Miller", "$105,000", "$78,000", "$5,500", "$9,000", "Active"),
     ]
 
     for employee in fake_data:
@@ -86,5 +87,5 @@ def employee_management(parent):
 
 if __name__ == "__main__":
     window = Tk()
-    employee_management(window)
+    payroll_management(window)
     window.mainloop()
