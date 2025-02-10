@@ -1,8 +1,8 @@
 from tkinter import *
 import tkinter as tk
+from dashboard import create_dashboard
 
-
-def create_login(parent):
+def create_hr_login(parent):
     login_window = Toplevel(parent)
     # login_window.geometry("460x440")
     login_window.title("HR Signin")
@@ -79,11 +79,11 @@ def create_login(parent):
 
     # Setting up the button to enter a new window
 
-    # def feature_mainwindow():
-    #     login_window.withdraw()  # Hide the main window
-    #     dashboard_window = create_dashboard(login_window)
-    #     if dashboard_window:
-    #         dashboard_window.protocol("WM_DELETE_WINDOW", lambda: close_windows(register_window, dashboard_window))
+    def feature_dashboard():
+        login_window.withdraw()  # Hide the main window
+        dashboard_window = create_dashboard(login_window)
+        if dashboard_window:
+            dashboard_window.protocol("WM_DELETE_WINDOW", lambda: close_windows(login_window, dashboard_window))
 
     def close_windows(main_window, popup_window):
         popup_window.destroy()
@@ -95,7 +95,7 @@ def create_login(parent):
                    background='#D24545',
                    activeforeground='#E43A19',
                    activebackground='#FFDD95',
-                   # command=feature_mainwindow,
+                   command=feature_dashboard,
                    font=font_login_button
                    )
     Login.pack(padx=10, pady=20)
@@ -123,5 +123,5 @@ def create_login(parent):
 
 if __name__ == "__main__":
     window = Tk()
-    create_login(window)
+    create_hr_login(window)
     window.mainloop()

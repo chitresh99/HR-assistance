@@ -19,7 +19,7 @@ def performance_management(parent):
     font_info2 = ('Arial', 15, 'italic')
     font_button = ('Arial', 15, 'bold')
 
-    info1_label = Label(dashboard_window, text="Employee Management", fg='#3468C0', bg='#FFDD95', font=font_info1)
+    info1_label = Label(dashboard_window, text="Performance Management", fg='#3468C0', bg='#FFDD95', font=font_info1)
     info1_label.grid(row=0, column=0, columnspan=3, padx=10, pady=10, sticky='n')
 
     info2_label = Label(dashboard_window, text="Monitor your employee's performance here", fg='#3468C0', bg='#FFDD95',

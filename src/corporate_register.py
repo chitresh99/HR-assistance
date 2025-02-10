@@ -1,5 +1,7 @@
 from tkinter import *
 from tkinter import messagebox
+from dashboard import create_dashboard
+
 
 def create_register(parent):
     # Setting Up the window
@@ -98,6 +100,16 @@ def create_register(parent):
     Password_field = Entry(register_window, width=50, justify="left", show="*")
     Password_field.pack(pady=7, padx=(7, 0), anchor="w")
 
+    def feature_dashboard():
+        register_window.withdraw()  # Hide the main window
+        dashboard_window = create_dashboard(register_window)
+        if dashboard_window:
+            dashboard_window.protocol("WM_DELETE_WINDOW", lambda: close_windows(register_window, dashboard_window))
+
+    def close_windows(main_window, popup_window):
+        popup_window.destroy()
+        main_window.destroy()
+
     # Register Button (No Functionality)
     Register = Button(register_window,
                       text="Register",
@@ -105,6 +117,7 @@ def create_register(parent):
                       background='#D24545',
                       activeforeground='#E43A19',
                       activebackground='#111F4D',
+                      command=feature_dashboard,
                       font=font_register_button)
     Register.pack(padx=10, pady=20)
 

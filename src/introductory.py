@@ -1,5 +1,8 @@
 from tkinter import *
 import tkinter as tk
+from corporate_register import create_register
+from employee_singnin import create_login
+from hr_signin import create_hr_login
 
 # Setting Up the app
 window = Tk()
@@ -81,6 +84,16 @@ infoLabel4 = tk.Label(window,
                       font=font_info_small)
 infoLabel4.pack()
 
+def feature_diff2_introductory_window():
+    window.withdraw()  # Hide the main window
+    hr_signin = create_hr_login(window)
+    hr_signin.protocol("WM_DELETE_WINDOW", lambda: close_windows(window, hr_signin))
+
+
+def close_windows(main_window, popup_window):
+    popup_window.destroy()
+    main_window.destroy()
+
 # button -> for hr signin
 Entry = Button(window,
                text="HR signin",
@@ -88,7 +101,7 @@ Entry = Button(window,
                background='#D24545',
                activeforeground='#E43A19',
                activebackground='#111F4D',
-               # command=feature_display_window,
+               command=feature_diff2_introductory_window,
                font=font_button
                )
 Entry.pack(padx=10, pady=20)
@@ -100,6 +113,17 @@ infoLabel4 = tk.Label(window,
                       font=font_info_small)
 infoLabel4.pack()
 
+def feature_diff1_introductory_window():
+    window.withdraw()  # Hide the main window
+    employee_signin = create_login(window)
+    employee_signin.protocol("WM_DELETE_WINDOW", lambda: close_windows(window, employee_signin))
+
+
+def close_windows(main_window, popup_window):
+    popup_window.destroy()
+    main_window.destroy()
+
+
 # button -> for hr signin
 Entry = Button(window,
                text="Employee Signin",
@@ -107,7 +131,7 @@ Entry = Button(window,
                background='#D24545',
                activeforeground='#E43A19',
                activebackground='#111F4D',
-               # command=feature_display_window,
+               command=feature_diff1_introductory_window,
                font=font_button
                )
 Entry.pack(padx=10, pady=20)
@@ -119,6 +143,18 @@ infoLabel4 = tk.Label(window,
                       font=font_info_small)
 infoLabel4.pack()
 
+
+def feature_introductory_window():
+    window.withdraw()  # Hide the main window
+    corporate_register_window = create_register(window)
+    corporate_register_window.protocol("WM_DELETE_WINDOW", lambda: close_windows(window, corporate_register_window))
+
+
+def close_windows(main_window, popup_window):
+    popup_window.destroy()
+    main_window.destroy()
+
+
 # button -> for registering new corporate
 Entry = Button(window,
                text="Register",
@@ -126,7 +162,7 @@ Entry = Button(window,
                background='#D24545',
                activeforeground='#E43A19',
                activebackground='#111F4D',
-               # command=feature_display_window,
+               command=feature_introductory_window,
                font=font_button
                )
 Entry.pack(padx=10, pady=20)

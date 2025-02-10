@@ -2,7 +2,7 @@ from tkinter import *
 from tkinter import ttk
 import tkinter as tk
 
-def performance_management(parent):
+def upskilling_management(parent):
     dashboard_window = Toplevel(parent)
     dashboard_window.title("Performance Management")
     dashboard_window.configure(background="#FFDD95")
@@ -84,5 +84,5 @@ def performance_management(parent):
 
 if __name__ == "__main__":
     window = Tk()
-    performance_management(window)
+    upskilling_management(window)
     window.mainloop()

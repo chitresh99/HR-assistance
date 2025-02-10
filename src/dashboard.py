@@ -1,5 +1,10 @@
 from tkinter import *
 import tkinter as tk
+from employee_managment import employee_management
+from payroll_managment import payroll_management
+from recruitment import recruitment_management
+from performane_management import performance_management
+from upskilling import upskilling_management
 
 def create_dashboard(parent):
     dashboard_window = Toplevel(parent)
@@ -44,95 +49,148 @@ def create_dashboard(parent):
     info2_label.grid(row=1, column=0, columnspan=3, padx=10, pady=10, sticky='n')
 
     employee_managment = Label(dashboard_window,
-                     text="Employee Management",
-                     foreground='#3468C0',
-                     background='#FFDD95',
-                     font=font_button
-                     )
+                               text="Employee Management",
+                               foreground='#3468C0',
+                               background='#FFDD95',
+                               font=font_button
+                               )
     employee_managment.grid(row=2, columnspan=4, sticky='n')
 
+    def feature_employee_management():
+        dashboard_window.withdraw()  # Hide the main window
+        employee_window = employee_management(dashboard_window)
+        if employee_window:
+            employee_window.protocol("WM_DELETE_WINDOW", lambda: close_windows(dashboard_window, employee_window))
+
+    def close_windows(main_window, popup_window):
+        popup_window.destroy()
+        main_window.destroy()
+
     employee_managment = Button(dashboard_window,
-                      text="Employee Management",
-                      foreground='#f7f7f7',
-                      background='#D24545',
-                      activeforeground='#E43A19',
-                      activebackground='#111F4D',
-                      # command=feature_mainwindow,
-                      font=font_button
-                      )
-    employee_managment.grid(row=3, columnspan=4,pady=5,sticky='n')
+                                text="Employee Management",
+                                foreground='#f7f7f7',
+                                background='#D24545',
+                                activeforeground='#E43A19',
+                                activebackground='#111F4D',
+                                command=feature_employee_management,
+                                font=font_button
+                                )
+    employee_managment.grid(row=3, columnspan=4, pady=5, sticky='n')
 
     payroll_managment = Label(dashboard_window,
-                        text="Payroll Management",
-                        foreground='#3468C0',
-                        background='#FFDD95',
-                        font=font_button
-                        )
-    payroll_managment.grid(row=4, columnspan=4,pady=10,sticky='n')
-
-    payroll_managment = Button(dashboard_window,
-                   text="Payroll Management",
-                   foreground='#f7f7f7',
-                   background='#D24545',
-                   activeforeground='#E43A19',
-                   activebackground='#111F4D',
-                   # command=feature_placewindow,
-                   font=font_button
-                   )
-    payroll_managment.grid(row=5, columnspan=4,pady=10, sticky='n')
-
-    recruitment = Label(dashboard_window,
-                              text="Recruitment",
+                              text="Payroll Management",
                               foreground='#3468C0',
                               background='#FFDD95',
                               font=font_button
                               )
-    recruitment.grid(row=6, columnspan=4, pady=10, sticky='n')
+    payroll_managment.grid(row=4, columnspan=4, pady=10, sticky='n')
 
-    recruitment = Button(dashboard_window,
-                      text="Recruitment",
-                      foreground='#f7f7f7',
-                      background='#D24545',
-                      activeforeground='#E43A19',
-                      activebackground='#111F4D',
-                      font=font_button
-                      )
-    recruitment.grid(row=7, columnspan=4,pady=10, sticky='n')
+    def feature_payroll_management():
+        dashboard_window.withdraw()  # Hide the main window
+        payroll_window = payroll_management(dashboard_window)
+        if payroll_window:
+            payroll_window.protocol("WM_DELETE_WINDOW", lambda: close_windows(dashboard_window, payroll_window))
 
-    performance_management = Label(dashboard_window,
-                        text="Performance Management",
+    def close_windows(main_window, popup_window):
+        popup_window.destroy()
+        main_window.destroy()
+
+    payroll_managment = Button(dashboard_window,
+                               text="Payroll Management",
+                               foreground='#f7f7f7',
+                               background='#D24545',
+                               activeforeground='#E43A19',
+                               activebackground='#111F4D',
+                               command=feature_payroll_management,
+                               font=font_button
+                               )
+    payroll_managment.grid(row=5, columnspan=4, pady=10, sticky='n')
+
+
+
+    recruitment = Label(dashboard_window,
+                        text="Recruitment",
                         foreground='#3468C0',
                         background='#FFDD95',
                         font=font_button
                         )
-    performance_management.grid(row=8, columnspan=4,padx=20, pady=10, sticky='sw')
+    recruitment.grid(row=6, columnspan=4, pady=10, sticky='n')
 
-    performance_management = Button(dashboard_window,
-                         text="Performance Management",
+    def feature_recruitment_management():
+        dashboard_window.withdraw()  # Hide the main window
+        recruitment_window = recruitment_management(dashboard_window)
+        if recruitment_window:
+            recruitment_window.protocol("WM_DELETE_WINDOW", lambda: close_windows(dashboard_window, recruitment_window))
+
+    def close_windows(main_window, popup_window):
+        popup_window.destroy()
+        main_window.destroy()
+
+    recruitment = Button(dashboard_window,
+                         text="Recruitment",
                          foreground='#f7f7f7',
                          background='#D24545',
                          activeforeground='#E43A19',
                          activebackground='#111F4D',
+                         command=feature_recruitment_management,
                          font=font_button
                          )
-    performance_management.grid(row=9, columnspan=4, padx=20, pady=10, sticky='sw')
+    recruitment.grid(row=7, columnspan=4, pady=10, sticky='n')
 
-    Skillup_tracking = Label(dashboard_window,
-                                   text="Skillup Tracking",
+    performancee_management = Label(dashboard_window,
+                                   text="Performance Management",
                                    foreground='#3468C0',
                                    background='#FFDD95',
                                    font=font_button
                                    )
-    Skillup_tracking.grid(row=8, columnspan=4, padx=20, pady=10, sticky='ne')
+    performancee_management.grid(row=8, columnspan=4, padx=20, pady=10, sticky='sw')
 
-    skillup_tracking = Button(dashboard_window,
-                                    text="Skillup Tracking",
+    def feature_performance_management():
+        dashboard_window.withdraw()  # Hide the main window
+        recruitment_window = performance_management(dashboard_window)
+        if recruitment_window:
+            recruitment_window.protocol("WM_DELETE_WINDOW", lambda: close_windows(dashboard_window, recruitment_window))
+    def close_windows(main_window, popup_window):
+        popup_window.destroy()
+        main_window.destroy()
+
+    performancee_management = Button(dashboard_window,
+                                    text="Performance Management",
                                     foreground='#f7f7f7',
                                     background='#D24545',
                                     activeforeground='#E43A19',
                                     activebackground='#111F4D',
+                                    command=feature_performance_management,
                                     font=font_button
                                     )
+    performancee_management.grid(row=9, columnspan=4, padx=20, pady=10, sticky='sw')
+
+    Skillup_tracking = Label(dashboard_window,
+                             text="Skillup Tracking",
+                             foreground='#3468C0',
+                             background='#FFDD95',
+                             font=font_button
+                             )
+    Skillup_tracking.grid(row=8, columnspan=4, padx=20, pady=10, sticky='ne')
+
+    def feature_skillup_management():
+        dashboard_window.withdraw()  # Hide the main window
+        skillup_window = upskilling_management(dashboard_window)
+        if skillup_window:
+            skillup_window.protocol("WM_DELETE_WINDOW", lambda: close_windows(dashboard_window, skillup_window))
+    def close_windows(main_window, popup_window):
+        popup_window.destroy()
+        main_window.destroy()
+
+    skillup_tracking = Button(dashboard_window,
+                              text="Skillup Tracking",
+                              foreground='#f7f7f7',
+                              background='#D24545',
+                              activeforeground='#E43A19',
+                              activebackground='#111F4D',
+                              command=feature_skillup_management,
+                              font=font_button
+                              )
     skillup_tracking.grid(row=9, columnspan=4, padx=20, pady=10, sticky='ne')
 
     def feature_back(current_window, previous_window):
@@ -149,8 +207,6 @@ def create_dashboard(parent):
                   font=font_button
                   )
     Back.grid(row=1, column=0, columnspan=3, padx=10, pady=10, sticky='w')
-
-
 
     # Configure column sizes
     dashboard_window.grid_columnconfigure(0, weight=1, uniform="group1")

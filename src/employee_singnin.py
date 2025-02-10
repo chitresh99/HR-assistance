@@ -1,5 +1,6 @@
 from tkinter import *
 import tkinter as tk
+from employee_greviance import employee_greviance
 
 
 def create_login(parent):
@@ -79,11 +80,11 @@ def create_login(parent):
 
     # Setting up the button to enter a new window
 
-    # def feature_mainwindow():
-    #     login_window.withdraw()  # Hide the main window
-    #     dashboard_window = create_dashboard(login_window)
-    #     if dashboard_window:
-    #         dashboard_window.protocol("WM_DELETE_WINDOW", lambda: close_windows(register_window, dashboard_window))
+    def feature_dashboard():
+        login_window.withdraw()  # Hide the main window
+        dashboard_window = employee_greviance(login_window)
+        if dashboard_window:
+            dashboard_window.protocol("WM_DELETE_WINDOW", lambda: close_windows(login_window, dashboard_window))
 
     def close_windows(main_window, popup_window):
         popup_window.destroy()
@@ -95,7 +96,7 @@ def create_login(parent):
                    background='#D24545',
                    activeforeground='#E43A19',
                    activebackground='#FFDD95',
-                   # command=feature_mainwindow,
+                   command=feature_dashboard,
                    font=font_login_button
                    )
     Login.pack(padx=10, pady=20)

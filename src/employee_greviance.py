@@ -3,7 +3,7 @@ from tkinter import ttk
 import tkinter as tk
 
 
-def performance_management(parent):
+def employee_greviance(parent):
     dashboard_window = Toplevel(parent)
     dashboard_window.title("Employee Grievance")
     dashboard_window.configure(background="#FFDD95")
@@ -80,5 +80,5 @@ def performance_management(parent):
 
 if __name__ == "__main__":
     window = Tk()
-    performance_management(window)
+    employee_greviance(window)
     window.mainloop()
