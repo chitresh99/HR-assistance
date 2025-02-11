@@ -5,6 +5,8 @@ from payroll_managment import payroll_management
 from recruitment import recruitment_management
 from performane_management import performance_management
 from upskilling import upskilling_management
+from greviance_check import grievance_check
+
 
 def create_dashboard(parent):
     dashboard_window = Toplevel(parent)
@@ -49,7 +51,7 @@ def create_dashboard(parent):
     info2_label.grid(row=1, column=0, columnspan=3, padx=10, pady=10, sticky='n')
 
     employee_managment = Label(dashboard_window,
-                               text="Employee Management",
+                               text="Efficient way to manage your employee data down here",
                                foreground='#3468C0',
                                background='#FFDD95',
                                font=font_button
@@ -78,12 +80,12 @@ def create_dashboard(parent):
     employee_managment.grid(row=3, columnspan=4, pady=5, sticky='n')
 
     payroll_managment = Label(dashboard_window,
-                              text="Payroll Management",
+                              text="Manage your organization's payroll here",
                               foreground='#3468C0',
                               background='#FFDD95',
                               font=font_button
                               )
-    payroll_managment.grid(row=4, columnspan=4, pady=10, sticky='n')
+    payroll_managment.grid(row=4, columnspan=4, padx=(20, 0), pady=10, sticky='sw')
 
     def feature_payroll_management():
         dashboard_window.withdraw()  # Hide the main window
@@ -104,12 +106,10 @@ def create_dashboard(parent):
                                command=feature_payroll_management,
                                font=font_button
                                )
-    payroll_managment.grid(row=5, columnspan=4, pady=10, sticky='n')
-
-
+    payroll_managment.grid(row=5, columnspan=4, padx=(40, 0), pady=10, sticky='sw')
 
     recruitment = Label(dashboard_window,
-                        text="Recruitment",
+                        text="Check your organization's recruitment status",
                         foreground='#3468C0',
                         background='#FFDD95',
                         font=font_button
@@ -138,11 +138,11 @@ def create_dashboard(parent):
     recruitment.grid(row=7, columnspan=4, pady=10, sticky='n')
 
     performancee_management = Label(dashboard_window,
-                                   text="Performance Management",
-                                   foreground='#3468C0',
-                                   background='#FFDD95',
-                                   font=font_button
-                                   )
+                                    text="Check your employee's performance here",
+                                    foreground='#3468C0',
+                                    background='#FFDD95',
+                                    font=font_button
+                                    )
     performancee_management.grid(row=8, columnspan=4, padx=20, pady=10, sticky='sw')
 
     def feature_performance_management():
@@ -150,23 +150,24 @@ def create_dashboard(parent):
         recruitment_window = performance_management(dashboard_window)
         if recruitment_window:
             recruitment_window.protocol("WM_DELETE_WINDOW", lambda: close_windows(dashboard_window, recruitment_window))
+
     def close_windows(main_window, popup_window):
         popup_window.destroy()
         main_window.destroy()
 
     performancee_management = Button(dashboard_window,
-                                    text="Performance Management",
-                                    foreground='#f7f7f7',
-                                    background='#D24545',
-                                    activeforeground='#E43A19',
-                                    activebackground='#111F4D',
-                                    command=feature_performance_management,
-                                    font=font_button
-                                    )
-    performancee_management.grid(row=9, columnspan=4, padx=20, pady=10, sticky='sw')
+                                     text="Performance Management",
+                                     foreground='#f7f7f7',
+                                     background='#D24545',
+                                     activeforeground='#E43A19',
+                                     activebackground='#111F4D',
+                                     command=feature_performance_management,
+                                     font=font_button
+                                     )
+    performancee_management.grid(row=9, columnspan=4, padx=50, pady=10, sticky='sw')
 
     Skillup_tracking = Label(dashboard_window,
-                             text="Skillup Tracking",
+                             text="Check your employee's skillup status",
                              foreground='#3468C0',
                              background='#FFDD95',
                              font=font_button
@@ -178,6 +179,7 @@ def create_dashboard(parent):
         skillup_window = upskilling_management(dashboard_window)
         if skillup_window:
             skillup_window.protocol("WM_DELETE_WINDOW", lambda: close_windows(dashboard_window, skillup_window))
+
     def close_windows(main_window, popup_window):
         popup_window.destroy()
         main_window.destroy()
@@ -191,7 +193,36 @@ def create_dashboard(parent):
                               command=feature_skillup_management,
                               font=font_button
                               )
-    skillup_tracking.grid(row=9, columnspan=4, padx=20, pady=10, sticky='ne')
+    skillup_tracking.grid(row=9, columnspan=4, padx=(0, 50), pady=10, sticky='ne')
+
+    greviance_tracking = Label(dashboard_window,
+                              text="Solve your employee's grievance's here",
+                              foreground='#3468C0',
+                              background='#FFDD95',
+                              font=font_button
+                              )
+    greviance_tracking.grid(row=4, columnspan=4, padx=(0, 20), pady=10, sticky='ne')
+
+    def feature_greviance_management():
+        dashboard_window.withdraw()  # Hide the main window
+        greviance_window = grievance_check(dashboard_window)
+        if greviance_window:
+            greviance_window.protocol("WM_DELETE_WINDOW", lambda: close_windows(dashboard_window, greviance_window))
+
+    def close_windows(main_window, popup_window):
+        popup_window.destroy()
+        main_window.destroy()
+
+    greviance_tracking = Button(dashboard_window,
+                                text="Grievance Tracking",
+                                foreground='#f7f7f7',
+                                background='#D24545',
+                                activeforeground='#E43A19',
+                                activebackground='#111F4D',
+                                command=feature_greviance_management,
+                                font=font_button
+                                )
+    greviance_tracking.grid(row=5, columnspan=4, padx=(0, 50), sticky='ne')
 
     def feature_back(current_window, previous_window):
         current_window.withdraw()  # Hide the current window

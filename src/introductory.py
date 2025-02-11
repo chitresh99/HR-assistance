@@ -78,7 +78,7 @@ infoLabel3 = tk.Label(window,
 infoLabel3.pack(pady=20)
 
 infoLabel4 = tk.Label(window,
-                      text="HR Signin",
+                      text="HR? Click Here to Sign In",
                       fg='#3468C0',
                       bg='#FFDD95',
                       font=font_info_small)
@@ -107,7 +107,7 @@ Entry = Button(window,
 Entry.pack(padx=10, pady=20)
 
 infoLabel4 = tk.Label(window,
-                      text="Employee Signin",
+                      text="Employee? Click Here to Sign In",
                       fg='#3468C0',
                       bg='#FFDD95',
                       font=font_info_small)

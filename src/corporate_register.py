@@ -121,6 +121,10 @@ def create_register(parent):
                       font=font_register_button)
     Register.pack(padx=10, pady=20)
 
+    def feature_back(current_window, previous_window):
+        current_window.withdraw()
+        previous_window.deiconify()
+
     # Back Button (No Functionality)
     Back = Button(register_window,
                   text="Back",
@@ -128,6 +132,7 @@ def create_register(parent):
                   background='#D24545',
                   activeforeground='#D24545',
                   activebackground='#A94438',
+                  command=lambda: feature_back(register_window, parent),
                   font=font_button)
     Back.pack(padx=10, anchor='sw')
 
