@@ -43,6 +43,13 @@ def create_dashboard(parent):
                         font=font_info1)
     info1_label.grid(row=0, column=0, columnspan=3, padx=10, pady=10, sticky='n')
 
+    org_name_label = Label(dashboard_window,
+                        text=" ",
+                        fg='#3468C0',
+                        bg='#FFDD95',
+                        font=font_info1)
+    org_name_label.grid(row=0, column=0, columnspan=3, padx=10, pady=10, sticky='ne')
+
     info2_label = Label(dashboard_window,
                         text="Make your HR Operations more efficient by starting here",
                         fg='#3468C0',
