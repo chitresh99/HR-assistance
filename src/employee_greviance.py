@@ -2,7 +2,6 @@ from tkinter import *
 from tkinter import ttk
 import tkinter as tk
 
-
 def employee_greviance(parent):
     dashboard_window = Toplevel(parent)
     dashboard_window.title("Employee Grievance")

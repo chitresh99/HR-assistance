@@ -1,5 +1,6 @@
 from tkinter import *
 import tkinter as tk
+import mysql.connector
 from employee_managment import employee_management
 from payroll_managment import payroll_management
 from recruitment import recruitment_management
@@ -8,14 +9,18 @@ from upskilling import upskilling_management
 from greviance_check import grievance_check
 
 
-def create_dashboard(parent):
+def create_dashboard(parent, company_id=None):
     dashboard_window = Toplevel(parent)
-    # main_window.geometry("1000x600")
     dashboard_window.title("Dashboard")
     dashboard_window.configure(background="#FFDD95")
 
-    # Positioning the application
+    # Store company_id as a global variable in the dashboard_window
+    dashboard_window.company_id = company_id
 
+    # Get company details from database
+    company_name = get_company_details(company_id) if company_id else "Organization"
+
+    # Positioning the application
     window_width = 1000
     window_height = 600
 
@@ -26,10 +31,6 @@ def create_dashboard(parent):
     y_position = int((screen_height - window_height) / 2)
 
     dashboard_window.geometry(f"{window_width}x{window_height}+{x_position}+{y_position}")
-
-    # Setting up the icon for the window
-    # icon = PhotoImage(file='logo.png')
-    # dashboard_window.iconphoto(True, icon)
 
     # Setting up the font
     font_info1 = ('Arial', 30, 'italic')
@@ -44,10 +45,10 @@ def create_dashboard(parent):
     info1_label.grid(row=0, column=0, columnspan=3, padx=10, pady=10, sticky='n')
 
     org_name_label = Label(dashboard_window,
-                        text=" ",
-                        fg='#3468C0',
-                        bg='#FFDD95',
-                        font=font_info1)
+                           text=f"Welcome, {company_name}",
+                           fg='#3468C0',
+                           bg='#FFDD95',
+                           font=('Arial', 18, 'bold'))
     org_name_label.grid(row=0, column=0, columnspan=3, padx=10, pady=10, sticky='ne')
 
     info2_label = Label(dashboard_window,
@@ -67,7 +68,7 @@ def create_dashboard(parent):
 
     def feature_employee_management():
         dashboard_window.withdraw()  # Hide the main window
-        employee_window = employee_management(dashboard_window)
+        employee_window = employee_management(dashboard_window)  # Pass only the parent window
         if employee_window:
             employee_window.protocol("WM_DELETE_WINDOW", lambda: close_windows(dashboard_window, employee_window))
 
@@ -96,13 +97,9 @@ def create_dashboard(parent):
 
     def feature_payroll_management():
         dashboard_window.withdraw()  # Hide the main window
-        payroll_window = payroll_management(dashboard_window)
+        payroll_window = payroll_management(dashboard_window)  # Pass only the parent window
         if payroll_window:
             payroll_window.protocol("WM_DELETE_WINDOW", lambda: close_windows(dashboard_window, payroll_window))
-
-    def close_windows(main_window, popup_window):
-        popup_window.destroy()
-        main_window.destroy()
 
     payroll_managment = Button(dashboard_window,
                                text="Payroll Management",
@@ -125,13 +122,9 @@ def create_dashboard(parent):
 
     def feature_recruitment_management():
         dashboard_window.withdraw()  # Hide the main window
-        recruitment_window = recruitment_management(dashboard_window)
+        recruitment_window = recruitment_management(dashboard_window)  # Pass only the parent window
         if recruitment_window:
             recruitment_window.protocol("WM_DELETE_WINDOW", lambda: close_windows(dashboard_window, recruitment_window))
-
-    def close_windows(main_window, popup_window):
-        popup_window.destroy()
-        main_window.destroy()
 
     recruitment = Button(dashboard_window,
                          text="Recruitment",
@@ -154,13 +147,9 @@ def create_dashboard(parent):
 
     def feature_performance_management():
         dashboard_window.withdraw()  # Hide the main window
-        recruitment_window = performance_management(dashboard_window)
-        if recruitment_window:
-            recruitment_window.protocol("WM_DELETE_WINDOW", lambda: close_windows(dashboard_window, recruitment_window))
-
-    def close_windows(main_window, popup_window):
-        popup_window.destroy()
-        main_window.destroy()
+        performance_window = performance_management(dashboard_window)  # Pass only the parent window
+        if performance_window:
+            performance_window.protocol("WM_DELETE_WINDOW", lambda: close_windows(dashboard_window, performance_window))
 
     performancee_management = Button(dashboard_window,
                                      text="Performance Management",
@@ -183,13 +172,9 @@ def create_dashboard(parent):
 
     def feature_skillup_management():
         dashboard_window.withdraw()  # Hide the main window
-        skillup_window = upskilling_management(dashboard_window)
+        skillup_window = upskilling_management(dashboard_window)  # Pass only the parent window
         if skillup_window:
             skillup_window.protocol("WM_DELETE_WINDOW", lambda: close_windows(dashboard_window, skillup_window))
-
-    def close_windows(main_window, popup_window):
-        popup_window.destroy()
-        main_window.destroy()
 
     skillup_tracking = Button(dashboard_window,
                               text="Skillup Tracking",
@@ -203,22 +188,18 @@ def create_dashboard(parent):
     skillup_tracking.grid(row=9, columnspan=4, padx=(0, 50), pady=10, sticky='ne')
 
     greviance_tracking = Label(dashboard_window,
-                              text="Solve your employee's grievance's here",
-                              foreground='#3468C0',
-                              background='#FFDD95',
-                              font=font_button
-                              )
+                               text="Solve your employee's grievance's here",
+                               foreground='#3468C0',
+                               background='#FFDD95',
+                               font=font_button
+                               )
     greviance_tracking.grid(row=4, columnspan=4, padx=(0, 20), pady=10, sticky='ne')
 
     def feature_greviance_management():
         dashboard_window.withdraw()  # Hide the main window
-        greviance_window = grievance_check(dashboard_window)
+        greviance_window = grievance_check(dashboard_window)  # Pass only the parent window
         if greviance_window:
             greviance_window.protocol("WM_DELETE_WINDOW", lambda: close_windows(dashboard_window, greviance_window))
-
-    def close_windows(main_window, popup_window):
-        popup_window.destroy()
-        main_window.destroy()
 
     greviance_tracking = Button(dashboard_window,
                                 text="Grievance Tracking",
@@ -261,8 +242,47 @@ def create_dashboard(parent):
     dashboard_window.grid_rowconfigure(8, weight=0)
     dashboard_window.grid_rowconfigure(9, weight=0)
 
+    return dashboard_window
+
+
+def get_company_details(company_id):
+    """Fetch company details from the database using company_id"""
+    try:
+        # Connect to MySQL database
+        connection = mysql.connector.connect(
+            host="localhost",  # Replace with your database host
+            user="root",  # Replace with your database username
+            password="CHIR2502004|",  # Replace with your database password
+            database="hrassistance"  # Replace with your database name
+        )
+
+        # Create a cursor
+        cursor = connection.cursor()
+
+        # Execute the query to fetch company details
+        query = "SELECT name_of_the_organization FROM corporate_register WHERE company_id = %s"
+        cursor.execute(query, (company_id,))
+
+        # Fetch result
+        result = cursor.fetchone()
+
+        # Close cursor and connection
+        cursor.close()
+        connection.close()
+
+        if result:
+            return result[0]  # Return company name
+        else:
+            return "Unknown Organization"
+
+    except mysql.connector.Error as error:
+        print(f"Database error: {error}")
+        return "Organization"
+
 
 if __name__ == "__main__":
     window = Tk()
-    create_dashboard(window)
+    # For testing purposes, you can pass a dummy company_id
+    # In actual usage, this would be passed from the login page
+    create_dashboard(window, company_id=1)
     window.mainloop()

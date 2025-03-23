@@ -7,6 +7,7 @@ from dashboard import create_dashboard
 # Global session dictionary to track logged-in user
 session = {}
 
+
 def create_hr_login(parent):
     login_window = Toplevel(parent)
     login_window.title("HR Signin")
@@ -60,19 +61,26 @@ def create_hr_login(parent):
 
         try:
             # Connect to MySQL Database
-            conn = mysql.connector.connect(host="localhost", user="root", password="CHIR2502004|", database="hrassistance")
+            conn = mysql.connector.connect(host="localhost", user="root", password="CHIR2502004|",
+                                           database="hrassistance")
             cursor = conn.cursor()
 
             # Verify credentials
-            query = "SELECT * FROM corporate_register WHERE email_of_the_organization = %s AND password = %s"
+            query = "SELECT company_id, name_of_the_organization FROM corporate_register WHERE email_of_the_organization = %s AND password = %s"
             cursor.execute(query, (email, password))
             result = cursor.fetchone()
 
             if result:
+                company_id, company_name = result  # Get the company_id and name
                 session["email"] = email  # Store session for filtering
-                messagebox.showinfo("Login Successful", "Welcome!")
+                session["company_id"] = company_id  # Store company_id in session
+                session["company_name"] = company_name  # Store company name in session
+
+                messagebox.showinfo("Login Successful", f"Welcome, {company_name}!")
                 login_window.withdraw()  # Hide login window
-                dashboard_window = create_dashboard(login_window)  # Open dashboard
+
+                # Open dashboard with the company_id
+                dashboard_window = create_dashboard(login_window, company_id)
 
                 if dashboard_window:
                     dashboard_window.protocol("WM_DELETE_WINDOW", lambda: close_windows(login_window, dashboard_window))

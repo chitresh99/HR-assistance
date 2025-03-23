@@ -39,6 +39,11 @@ def create_register(parent):
     email_field = Entry(register_window, width=50, justify="left")
     email_field.pack(pady=7, padx=(7, 0), anchor="w")
 
+    Label(register_window, text="A UNIQUE KEY FOR ORGANIZATION:", fg='#3468C0', bg='#FFDD95', font=font_email,
+          anchor="w").pack(padx=10, pady=4, anchor="w")
+    key_field = Entry(register_window, width=50, justify="left")
+    key_field.pack(pady=7, padx=(7, 0), anchor="w")
+
     Label(register_window, text="Password:", fg='#3468C0', bg='#FFDD95', font=font_password, anchor="w").pack(padx=10,
                                                                                                               pady=4,
                                                                                                               anchor="w")
@@ -46,11 +51,12 @@ def create_register(parent):
     password_field.pack(pady=7, padx=(7, 0), anchor="w")
 
     def register_corporation():
+        company_id = key_field.get().strip()
         name = name_field.get().strip()
         email = email_field.get().strip()
         password = password_field.get().strip()
 
-        if not name or not email or not password:
+        if not company_id or not name or not email or not password:
             messagebox.showerror("Error", "All fields are required!")
             return
 
@@ -58,25 +64,48 @@ def create_register(parent):
             conn = mysql.connector.connect(host="localhost", user="root", password="CHIR2502004|",
                                            database="hrassistance")
             cursor = conn.cursor()
+
+            # Check if the email already exists
             cursor.execute(
                 "SELECT email_of_the_organization FROM corporate_register WHERE email_of_the_organization = %s",
                 (email,))
             if cursor.fetchone():
                 messagebox.showerror("Error", "Email already registered!")
-            else:
-                cursor.execute(
-                    "INSERT INTO corporate_register (name_of_the_organization, email_of_the_organization, password) VALUES (%s, %s, %s)",
-                    (name, email, password))
-                conn.commit()
-                messagebox.showinfo("Success", "Registration successful!")
-                feature_dashboard()
+                return
+
+            # Check if the company_id already exists
+            cursor.execute(
+                "SELECT company_id FROM corporate_register WHERE company_id = %s",
+                (company_id,))
+            if cursor.fetchone():
+                messagebox.showerror("Error", "Company ID already in use! Please use a different unique key.")
+                return
+
+            # Insert data along with the timestamp
+            cursor.execute(
+                "INSERT INTO corporate_register (company_id, name_of_the_organization, email_of_the_organization, password, registration_time) "
+                "VALUES (%s, %s, %s, %s, NOW())",
+                (company_id, name, email, password))
+            conn.commit()
+            messagebox.showinfo("Success", f"Registration successful for {name}!")
+
+            # Store company details in a session-like variable
+            register_window.company_data = {
+                "company_id": company_id,
+                "company_name": name,
+                "email": email
+            }
+
+            # Open dashboard with company_id
+            feature_dashboard(company_id)
+
             conn.close()
         except mysql.connector.Error as err:
             messagebox.showerror("Database Error", str(err))
 
-    def feature_dashboard():
+    def feature_dashboard(company_id=None):
         register_window.withdraw()
-        dashboard_window = create_dashboard(register_window)
+        dashboard_window = create_dashboard(register_window, company_id)
         if dashboard_window:
             dashboard_window.protocol("WM_DELETE_WINDOW", lambda: close_windows(register_window, dashboard_window))
 
