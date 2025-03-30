@@ -11,7 +11,7 @@ from greviance_check import grievance_check
 
 def create_dashboard(parent, company_id=None):
     dashboard_window = Toplevel(parent)
-    dashboard_window.title("Dashboard")
+    dashboard_window.title("HR ASSISTANCE Dashboard")
     dashboard_window.configure(background="#FFDD95")
 
     # Store company_id as a global variable in the dashboard_window
@@ -22,7 +22,7 @@ def create_dashboard(parent, company_id=None):
 
     # Positioning the application
     window_width = 1000
-    window_height = 600
+    window_height = 700  # Increased height to accommodate new buttons
 
     screen_width = dashboard_window.winfo_screenwidth()
     screen_height = dashboard_window.winfo_screenheight()
@@ -31,216 +31,213 @@ def create_dashboard(parent, company_id=None):
     y_position = int((screen_height - window_height) / 2)
 
     dashboard_window.geometry(f"{window_width}x{window_height}+{x_position}+{y_position}")
+    dashboard_window.resizable(False, False)  # Fixed size window for better layout control
 
     # Setting up the font
-    font_info1 = ('Arial', 30, 'italic')
-    font_info2 = ('Arial', 15, 'italic')
-    font_button = ('Arial', 15, 'bold')
+    font_title = ('Arial', 30, 'bold')
+    font_subtitle = ('Arial', 16, 'italic')
+    font_welcome = ('Arial', 18, 'bold')
+    font_section = ('Arial', 14, 'italic')
+    font_button = ('Arial', 14, 'bold')
 
-    info1_label = Label(dashboard_window,
-                        text="HR ASSISTANCE",
-                        fg='#3468C0',
-                        bg='#FFDD95',
-                        font=font_info1)
-    info1_label.grid(row=0, column=0, columnspan=3, padx=10, pady=10, sticky='n')
+    # Create a header frame
+    header_frame = Frame(dashboard_window, bg="#FFDD95")
+    header_frame.pack(fill=X, padx=20, pady=10)
 
-    org_name_label = Label(dashboard_window,
-                           text=f"Welcome, {company_name}",
-                           fg='#3468C0',
-                           bg='#FFDD95',
-                           font=('Arial', 18, 'bold'))
-    org_name_label.grid(row=0, column=0, columnspan=3, padx=10, pady=10, sticky='ne')
-
-    info2_label = Label(dashboard_window,
-                        text="Make your HR Operations more efficient by starting here",
-                        fg='#3468C0',
-                        bg='#FFDD95',
-                        font=font_info2)
-    info2_label.grid(row=1, column=0, columnspan=3, padx=10, pady=10, sticky='n')
-
-    employee_managment = Label(dashboard_window,
-                               text="Efficient way to manage your employee data down here",
-                               foreground='#3468C0',
-                               background='#FFDD95',
-                               font=font_button
-                               )
-    employee_managment.grid(row=2, columnspan=4, sticky='n')
-
-    def feature_employee_management():
-        dashboard_window.withdraw()  # Hide the main window
-        employee_window = employee_management(dashboard_window)  # Pass only the parent window
-        if employee_window:
-            employee_window.protocol("WM_DELETE_WINDOW", lambda: close_windows(dashboard_window, employee_window))
-
-    def close_windows(main_window, popup_window):
-        popup_window.destroy()
-        main_window.destroy()
-
-    employee_managment = Button(dashboard_window,
-                                text="Employee Management",
-                                foreground='#f7f7f7',
-                                background='#D24545',
-                                activeforeground='#E43A19',
-                                activebackground='#111F4D',
-                                command=feature_employee_management,
-                                font=font_button
-                                )
-    employee_managment.grid(row=3, columnspan=4, pady=5, sticky='n')
-
-    payroll_managment = Label(dashboard_window,
-                              text="Manage your organization's payroll here",
-                              foreground='#3468C0',
-                              background='#FFDD95',
-                              font=font_button
-                              )
-    payroll_managment.grid(row=4, columnspan=4, padx=(20, 0), pady=10, sticky='sw')
-
-    def feature_payroll_management():
-        dashboard_window.withdraw()  # Hide the main window
-        payroll_window = payroll_management(dashboard_window)  # Pass only the parent window
-        if payroll_window:
-            payroll_window.protocol("WM_DELETE_WINDOW", lambda: close_windows(dashboard_window, payroll_window))
-
-    payroll_managment = Button(dashboard_window,
-                               text="Payroll Management",
-                               foreground='#f7f7f7',
-                               background='#D24545',
-                               activeforeground='#E43A19',
-                               activebackground='#111F4D',
-                               command=feature_payroll_management,
-                               font=font_button
-                               )
-    payroll_managment.grid(row=5, columnspan=4, padx=(40, 0), pady=10, sticky='sw')
-
-    recruitment = Label(dashboard_window,
-                        text="Check your organization's recruitment status",
-                        foreground='#3468C0',
-                        background='#FFDD95',
-                        font=font_button
-                        )
-    recruitment.grid(row=6, columnspan=4, pady=10, sticky='n')
-
-    def feature_recruitment_management():
-        dashboard_window.withdraw()  # Hide the main window
-        recruitment_window = recruitment_management(dashboard_window)  # Pass only the parent window
-        if recruitment_window:
-            recruitment_window.protocol("WM_DELETE_WINDOW", lambda: close_windows(dashboard_window, recruitment_window))
-
-    recruitment = Button(dashboard_window,
-                         text="Recruitment",
-                         foreground='#f7f7f7',
-                         background='#D24545',
-                         activeforeground='#E43A19',
-                         activebackground='#111F4D',
-                         command=feature_recruitment_management,
-                         font=font_button
-                         )
-    recruitment.grid(row=7, columnspan=4, pady=10, sticky='n')
-
-    performancee_management = Label(dashboard_window,
-                                    text="Check your employee's performance here",
-                                    foreground='#3468C0',
-                                    background='#FFDD95',
-                                    font=font_button
-                                    )
-    performancee_management.grid(row=8, columnspan=4, padx=20, pady=10, sticky='sw')
-
-    def feature_performance_management():
-        dashboard_window.withdraw()  # Hide the main window
-        performance_window = performance_management(dashboard_window)  # Pass only the parent window
-        if performance_window:
-            performance_window.protocol("WM_DELETE_WINDOW", lambda: close_windows(dashboard_window, performance_window))
-
-    performancee_management = Button(dashboard_window,
-                                     text="Performance Management",
-                                     foreground='#f7f7f7',
-                                     background='#D24545',
-                                     activeforeground='#E43A19',
-                                     activebackground='#111F4D',
-                                     command=feature_performance_management,
-                                     font=font_button
-                                     )
-    performancee_management.grid(row=9, columnspan=4, padx=50, pady=10, sticky='sw')
-
-    Skillup_tracking = Label(dashboard_window,
-                             text="Check your employee's skillup status",
-                             foreground='#3468C0',
-                             background='#FFDD95',
-                             font=font_button
-                             )
-    Skillup_tracking.grid(row=8, columnspan=4, padx=20, pady=10, sticky='ne')
-
-    def feature_skillup_management():
-        dashboard_window.withdraw()  # Hide the main window
-        skillup_window = upskilling_management(dashboard_window)  # Pass only the parent window
-        if skillup_window:
-            skillup_window.protocol("WM_DELETE_WINDOW", lambda: close_windows(dashboard_window, skillup_window))
-
-    skillup_tracking = Button(dashboard_window,
-                              text="Skillup Tracking",
-                              foreground='#f7f7f7',
-                              background='#D24545',
-                              activeforeground='#E43A19',
-                              activebackground='#111F4D',
-                              command=feature_skillup_management,
-                              font=font_button
-                              )
-    skillup_tracking.grid(row=9, columnspan=4, padx=(0, 50), pady=10, sticky='ne')
-
-    greviance_tracking = Label(dashboard_window,
-                               text="Solve your employee's grievance's here",
-                               foreground='#3468C0',
-                               background='#FFDD95',
-                               font=font_button
-                               )
-    greviance_tracking.grid(row=4, columnspan=4, padx=(0, 20), pady=10, sticky='ne')
-
-    def feature_greviance_management():
-        dashboard_window.withdraw()  # Hide the main window
-        greviance_window = grievance_check(dashboard_window)  # Pass only the parent window
-        if greviance_window:
-            greviance_window.protocol("WM_DELETE_WINDOW", lambda: close_windows(dashboard_window, greviance_window))
-
-    greviance_tracking = Button(dashboard_window,
-                                text="Grievance Tracking",
-                                foreground='#f7f7f7',
-                                background='#D24545',
-                                activeforeground='#E43A19',
-                                activebackground='#111F4D',
-                                command=feature_greviance_management,
-                                font=font_button
-                                )
-    greviance_tracking.grid(row=5, columnspan=4, padx=(0, 50), sticky='ne')
-
+    # Add Back button to header
     def feature_back(current_window, previous_window):
         current_window.withdraw()  # Hide the current window
         previous_window.deiconify()
 
-    Back = Button(dashboard_window,
+    Back = Button(header_frame,
                   text="Back",
-                  foreground='#f7f7f7',
+                  foreground='#FFFFFF',
                   background='#D24545',
                   activeforeground='#D24545',
                   activebackground='#A94438',
                   command=lambda: feature_back(dashboard_window, parent),
-                  font=font_button
+                  font=font_button,
+                  width=8,
+                  padx=5,
+                  pady=2,
+                  relief=RAISED,
+                  bd=2
                   )
-    Back.grid(row=1, column=0, columnspan=3, padx=10, pady=10, sticky='w')
+    Back.pack(side=LEFT, anchor=NW)
 
-    # Configure column sizes
-    dashboard_window.grid_columnconfigure(0, weight=1, uniform="group1")
-    dashboard_window.grid_columnconfigure(1, weight=1, uniform="group1")
-    dashboard_window.grid_columnconfigure(2, weight=1, uniform="group1")
+    # Add title to header
+    title_frame = Frame(header_frame, bg="#FFDD95")
+    title_frame.pack(side=TOP, fill=X)
 
-    # Configure row sizes
-    dashboard_window.grid_rowconfigure(2, weight=0)
-    dashboard_window.grid_rowconfigure(3, weight=0)
-    dashboard_window.grid_rowconfigure(4, weight=0)
-    dashboard_window.grid_rowconfigure(5, weight=0)
-    dashboard_window.grid_rowconfigure(6, weight=0)
-    dashboard_window.grid_rowconfigure(7, weight=0)
-    dashboard_window.grid_rowconfigure(8, weight=0)
-    dashboard_window.grid_rowconfigure(9, weight=0)
+    info1_label = Label(title_frame,
+                        text="HR ASSISTANCE",
+                        fg='#3468C0',
+                        bg='#FFDD95',
+                        font=font_title)
+    info1_label.pack(side=TOP)
+
+    org_name_label = Label(title_frame,
+                           text=f"Welcome, {company_name}",
+                           fg='#3468C0',
+                           bg='#FFDD95',
+                           font=font_welcome)
+    org_name_label.pack(side=TOP, pady=5)
+
+    info2_label = Label(title_frame,
+                        text="Make your HR Operations more efficient by starting here",
+                        fg='#3468C0',
+                        bg='#FFDD95',
+                        font=font_subtitle)
+    info2_label.pack(side=TOP, pady=5)
+
+    # Create main content frame
+    main_frame = Frame(dashboard_window, bg="#FFDD95")
+    main_frame.pack(fill=BOTH, expand=True, padx=20, pady=10)
+
+    # Create left and right columns
+    left_column = Frame(main_frame, bg="#FFDD95")
+    left_column.pack(side=LEFT, fill=BOTH, expand=True, padx=(0, 10))
+
+    right_column = Frame(main_frame, bg="#FFDD95")
+    right_column.pack(side=RIGHT, fill=BOTH, expand=True, padx=(10, 0))
+
+    # Helper function to create module sections
+    def create_module_section(parent, title_text, button_text, command=None):
+        section_frame = Frame(parent, bg="#FFDD95", bd=2, relief=RIDGE)
+        section_frame.pack(fill=X, pady=10, padx=5, ipady=5)
+
+        title_label = Label(section_frame,
+                            text=title_text,
+                            foreground='#3468C0',
+                            background='#FFDD95',
+                            font=font_section
+                            )
+        title_label.pack(pady=(10, 5))
+
+        if command is None:
+            # Placeholder function for future features
+            command = lambda: tk.messagebox.showinfo("Future Feature",
+                                                     f"{button_text} will be implemented in a future update.")
+
+        button = Button(section_frame,
+                        text=button_text,
+                        foreground='#FFFFFF',
+                        background='#D24545',
+                        activeforeground='#E43A19',
+                        activebackground='#111F4D',
+                        command=command,
+                        font=font_button,
+                        width=20,
+                        height=1,
+                        relief=RAISED,
+                        bd=3
+                        )
+        button.pack(pady=(5, 10))
+
+        return section_frame
+
+    # Define window closing functions
+    def close_windows(main_window, popup_window):
+        popup_window.destroy()
+        main_window.destroy()
+
+    # Employee Management Module
+    def feature_employee_management():
+        dashboard_window.withdraw()
+        employee_window = employee_management(dashboard_window)
+        if employee_window:
+            employee_window.protocol("WM_DELETE_WINDOW", lambda: close_windows(dashboard_window, employee_window))
+
+    create_module_section(
+        left_column,
+        "Efficient way to manage your employee data",
+        "Employee Management",
+        feature_employee_management
+    )
+
+    # Payroll Management Module
+    def feature_payroll_management():
+        dashboard_window.withdraw()
+        payroll_window = payroll_management(dashboard_window)
+        if payroll_window:
+            payroll_window.protocol("WM_DELETE_WINDOW", lambda: close_windows(dashboard_window, payroll_window))
+
+    create_module_section(
+        left_column,
+        "Manage your organization's payroll here",
+        "Payroll Management",
+        feature_payroll_management
+    )
+
+    # Grievance Tracking Module
+    def feature_greviance_management():
+        dashboard_window.withdraw()
+        greviance_window = grievance_check(dashboard_window)
+        if greviance_window:
+            greviance_window.protocol("WM_DELETE_WINDOW", lambda: close_windows(dashboard_window, greviance_window))
+
+    create_module_section(
+        right_column,
+        "Solve your employee's grievances here",
+        "Grievance Tracking",
+        feature_greviance_management
+    )
+
+    # Recruitment Module
+    def feature_recruitment_management():
+        dashboard_window.withdraw()
+        recruitment_window = recruitment_management(dashboard_window)
+        if recruitment_window:
+            recruitment_window.protocol("WM_DELETE_WINDOW", lambda: close_windows(dashboard_window, recruitment_window))
+
+    create_module_section(
+        left_column,
+        "Check your organization's recruitment status",
+        "Recruitment",
+        feature_recruitment_management
+    )
+
+    # Performance Management Module
+    def feature_performance_management():
+        dashboard_window.withdraw()
+        performance_window = performance_management(dashboard_window)
+        if performance_window:
+            performance_window.protocol("WM_DELETE_WINDOW", lambda: close_windows(dashboard_window, performance_window))
+
+    create_module_section(
+        right_column,
+        "Check your employee's performance here",
+        "Performance Management",
+        feature_performance_management
+    )
+
+    # Skillup Tracking Module
+    def feature_skillup_management():
+        dashboard_window.withdraw()
+        skillup_window = upskilling_management(dashboard_window)
+        if skillup_window:
+            skillup_window.protocol("WM_DELETE_WINDOW", lambda: close_windows(dashboard_window, skillup_window))
+
+    create_module_section(
+        right_column,
+        "Check your employee's skillup status",
+        "Skillup Tracking",
+        feature_skillup_management
+    )
+
+    # Future Feature 1 - Placeholder
+    create_module_section(
+        left_column,
+        "Future feature for enhanced HR operations",
+        "Future Feature 1"
+    )
+
+    # Future Feature 2 - Placeholder
+    create_module_section(
+        right_column,
+        "Additional HR capabilities coming soon",
+        "Future Feature 2"
+    )
 
     return dashboard_window
 

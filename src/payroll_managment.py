@@ -248,10 +248,16 @@ def payroll_management(parent):
             conn.close()
 
     def delete_payroll():
-        if not payroll_id.get():
+        # Get selected item
+        selected_item = tree.selection()
+        if not selected_item:
             messagebox.showerror("Error", "Please select a payroll record to delete")
             return
 
+        # Get the payroll ID (stored as the item ID)
+        selected_id = selected_item[0]
+
+        # Confirm delete
         confirm = messagebox.askyesno("Confirm Delete", "Are you sure you want to delete this payroll record?")
         if not confirm:
             return
@@ -264,11 +270,15 @@ def payroll_management(parent):
 
         try:
             query = "DELETE FROM payroll_management WHERE id=%s"
-            cursor.execute(query, (payroll_id.get(),))
+            cursor.execute(query, (selected_id,))
             conn.commit()
-            messagebox.showinfo("Success", "Payroll record deleted successfully!")
-            clear_form()
-            load_payroll()  # Refresh the table
+
+            if cursor.rowcount > 0:
+                messagebox.showinfo("Success", "Payroll record deleted successfully!")
+                clear_form()
+                load_payroll()  # Refresh the table
+            else:
+                messagebox.showerror("Error", "No record was deleted. The record may no longer exist.")
 
         except mysql.connector.Error as err:
             messagebox.showerror("Database Error", f"Error: {err}")

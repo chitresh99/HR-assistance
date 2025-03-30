@@ -124,12 +124,12 @@ def employee_management(parent):
     role_entry = Entry(form_frame, font=font_entry)
     role_entry.grid(row=1, column=1, padx=5, pady=5, sticky='w')
 
-    Label(form_frame, text="Education:", fg='#3468C0', bg='#FFDD95', font=font_info2).grid(row=1, column=2, padx=5,
+    Label(form_frame, text="Education (Latest):", fg='#3468C0', bg='#FFDD95', font=font_info2).grid(row=1, column=2, padx=5,
                                                                                            pady=5, sticky='e')
     education_entry = Entry(form_frame, font=font_entry)
     education_entry.grid(row=1, column=3, padx=5, pady=5, sticky='w')
 
-    Label(form_frame, text="Marks:", fg='#3468C0', bg='#FFDD95', font=font_info2).grid(row=1, column=4, padx=5, pady=5,
+    Label(form_frame, text="Marks (CGPA):", fg='#3468C0', bg='#FFDD95', font=font_info2).grid(row=1, column=4, padx=5, pady=5,
                                                                                        sticky='e')
     marks_entry = Entry(form_frame, font=font_entry)
     marks_entry.grid(row=1, column=5, padx=5, pady=5, sticky='w')
@@ -235,9 +235,12 @@ def employee_management(parent):
             conn.close()
 
     def delete_employee():
-        if not employee_id.get():
+        if not tree.selection():
             messagebox.showerror("Error", "Please select an employee to delete")
             return
+
+        # Get the selected item ID directly from the tree
+        selected_id = tree.selection()[0]
 
         confirm = messagebox.askyesno("Confirm Delete", "Are you sure you want to delete this employee?")
         if not confirm:
@@ -251,11 +254,15 @@ def employee_management(parent):
 
         try:
             query = "DELETE FROM employee_managment WHERE id=%s"
-            cursor.execute(query, (employee_id.get(),))
+            cursor.execute(query, (selected_id,))
             conn.commit()
-            messagebox.showinfo("Success", "Employee deleted successfully!")
-            clear_form()
-            load_employees()  # Refresh the table
+
+            if cursor.rowcount > 0:
+                messagebox.showinfo("Success", "Employee deleted successfully!")
+                clear_form()
+                load_employees()  # Refresh the table
+            else:
+                messagebox.showwarning("Warning", "No employee was deleted. ID may not exist in database.")
 
         except mysql.connector.Error as err:
             messagebox.showerror("Database Error", f"Error: {err}")
