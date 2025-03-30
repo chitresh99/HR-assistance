@@ -1,54 +1,108 @@
 from tkinter import *
-from tkinter import messagebox
+from tkinter import messagebox, ttk
 import mysql.connector
 from dashboard import create_dashboard
 
 
 def create_register(parent):
     register_window = Toplevel(parent)
-    register_window.geometry("460x440")
-    register_window.title("Register")
+    register_window.title("Register Your Organization")
     register_window.configure(background="#FFDD95")
 
+    # Smaller window dimensions
     window_width = 460
-    window_height = 480
+    window_height = 440
     screen_width = register_window.winfo_screenwidth()
     screen_height = register_window.winfo_screenheight()
     x_position = int((screen_width - window_width) / 2)
     y_position = int((screen_height - window_height) / 2)
     register_window.geometry(f"{window_width}x{window_height}+{x_position}+{y_position}")
+    register_window.resizable(True, True)  # Allow resizing if needed
 
-    font_Register = ('Arial', 30, 'italic')
-    font_Registerinfo = ('Arial', 10, 'italic')
-    font_name = ('Arial', 13, 'bold')
-    font_email = ('Arial', 13, 'bold')
-    font_password = ('Arial', 13, 'bold')
-    font_register_button = ('Arial', 13, 'bold')
-    font_button = ("Arial", 10, "bold")
+    # Define fonts - slightly smaller
+    font_title = ('Arial', 26, 'bold')
+    font_subtitle = ('Arial', 10, 'italic')
+    font_label = ('Arial', 12, 'bold')
+    font_button = ("Arial", 11, "bold")
 
-    Label(register_window, text="REGISTER", fg='#3468C0', bg='#FFDD95', font=font_Register).pack(padx=10, pady=10)
-    Label(register_window, text="Fill the details below", fg='#3468C0', bg='#FFDD95', font=font_Registerinfo).pack()
+    # Create a main frame with reduced padding
+    main_frame = Frame(register_window, bg="#FFDD95", padx=15, pady=10)
+    main_frame.pack(fill=BOTH, expand=True)
 
-    Label(register_window, text="Name of the organization:", fg='#3468C0', bg='#FFDD95', font=font_name,
-          anchor="w").pack(padx=10, pady=4, anchor="w")
-    name_field = Entry(register_window, width=50, justify="left")
-    name_field.pack(pady=7, padx=(7, 0), anchor="w")
+    # Title and subtitle with reduced spacing
+    title_frame = Frame(main_frame, bg="#FFDD95")
+    title_frame.pack(fill=X, pady=(0, 10))
 
-    Label(register_window, text="Email of the organization:", fg='#3468C0', bg='#FFDD95', font=font_email,
-          anchor="w").pack(padx=10, pady=4, anchor="w")
-    email_field = Entry(register_window, width=50, justify="left")
-    email_field.pack(pady=7, padx=(7, 0), anchor="w")
+    Label(title_frame, text="REGISTER", fg='#3468C0', bg='#FFDD95', font=font_title).pack()
+    Label(title_frame, text="Fill the details below", fg='#3468C0', bg='#FFDD95', font=font_subtitle).pack(pady=(2, 0))
 
-    Label(register_window, text="A UNIQUE KEY FOR ORGANIZATION:", fg='#3468C0', bg='#FFDD95', font=font_email,
-          anchor="w").pack(padx=10, pady=4, anchor="w")
-    key_field = Entry(register_window, width=50, justify="left")
-    key_field.pack(pady=7, padx=(7, 0), anchor="w")
+    # Create a style for entry fields
+    register_style = ttk.Style()
+    register_style.configure("Register.TEntry", padding=(5, 3))
 
-    Label(register_window, text="Password:", fg='#3468C0', bg='#FFDD95', font=font_password, anchor="w").pack(padx=10,
-                                                                                                              pady=4,
-                                                                                                              anchor="w")
-    password_field = Entry(register_window, width=50, justify="left", show="*")
-    password_field.pack(pady=7, padx=(7, 0), anchor="w")
+    # Form fields container
+    form_frame = Frame(main_frame, bg="#FFDD95")
+    form_frame.pack(fill=X, pady=5)
+
+    # Create form fields with consistent styling but reduced spacing
+    def create_field(parent, label_text, show=None):
+        field_frame = Frame(parent, bg="#FFDD95")
+        field_frame.pack(fill=X, pady=5)
+
+        Label(field_frame, text=label_text, fg='#3468C0', bg='#FFDD95',
+              font=font_label, anchor="w").pack(fill=X, pady=(0, 2))
+
+        entry = ttk.Entry(field_frame, width=48, style="Register.TEntry", font=('Arial', 11))
+        if show:
+            entry.configure(show=show)
+        entry.pack(fill=X, ipady=2)
+
+        return entry
+
+    # Create form fields
+    name_field = create_field(form_frame, "Name of the organization:")
+    email_field = create_field(form_frame, "Email of the organization:")
+    key_field = create_field(form_frame, "A UNIQUE KEY FOR ORGANIZATION:")
+    password_field = create_field(form_frame, "Password:", show="*")
+
+    # Buttons container with reduced spacing
+    button_frame = Frame(main_frame, bg="#FFDD95")
+    button_frame.pack(fill=X, pady=(10, 5))
+
+    # Register button with improved appearance but smaller
+    register_btn = Button(
+        button_frame,
+        text="REGISTER",
+        fg='white',
+        bg='#3468C0',
+        activeforeground='white',
+        activebackground='#1E4C9A',
+        font=font_button,
+        cursor="hand2",
+        relief=RAISED,
+        borderwidth=2,
+        padx=15,
+        pady=5
+    )
+    register_btn.pack(pady=8)
+
+    # Back button positioned at bottom left
+    back_frame = Frame(main_frame, bg="#FFDD95")
+    back_frame.pack(fill=X, side=BOTTOM, pady=5)
+
+    back_btn = Button(
+        back_frame,
+        text="Back",
+        fg='white',
+        bg='#D24545',
+        activeforeground='white',
+        activebackground='#A94438',
+        font=('Arial', 10, 'bold'),
+        cursor="hand2",
+        padx=8,
+        pady=3
+    )
+    back_btn.pack(side=LEFT)
 
     def register_corporation():
         company_id = key_field.get().strip()
@@ -113,15 +167,13 @@ def create_register(parent):
         popup_window.destroy()
         main_window.destroy()
 
-    Button(register_window, text="Register", fg='#3468C0', bg='#D24545', activeforeground='#E43A19',
-           activebackground='#111F4D', command=register_corporation, font=font_register_button).pack(padx=10, pady=20)
-    Button(register_window, text="Back", fg='#f7f7f7', bg='#D24545', activeforeground='#D24545',
-           activebackground='#A94438', command=lambda: feature_back(register_window, parent), font=font_button).pack(
-        padx=10, anchor='sw')
-
     def feature_back(current_window, previous_window):
         current_window.withdraw()
         previous_window.deiconify()
+
+    # Connect commands to buttons
+    register_btn.config(command=register_corporation)
+    back_btn.config(command=lambda: feature_back(register_window, parent))
 
     return register_window
 

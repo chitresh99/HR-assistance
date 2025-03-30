@@ -53,7 +53,7 @@ def setup_document_table():
             conn.close()
 
 
-def grievance_check(parent):
+def document_storage(parent):
     # Create document storage directory if it doesn't exist
     doc_storage_path = os.path.join(os.getcwd(), "document_storage")
     if not os.path.exists(doc_storage_path):
@@ -518,5 +518,5 @@ def grievance_check(parent):
 
 if __name__ == "__main__":
     window = Tk()
-    grievance_check(window)
+    document_storage(window)
     window.mainloop()

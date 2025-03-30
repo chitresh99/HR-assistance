@@ -6,192 +6,161 @@ from hr_signin import create_hr_login
 
 # Setting Up the app
 window = Tk()
-# window.geometry("420x400")
-window.title("HR assistance")
+window.title("HR Assistance Portal")
 window.configure(background="#FFDD95")
-window_width = 900
-window_height = 630
+window.state('zoomed')
+# window_width = 900
+# window_height = 630
 
-# source :- https://stackoverflow.com/questions/3352918/how-to-center-a-window-on-the-screen-in-tkinter
+# # Center window on screen
+# screen_width = window.winfo_screenwidth()
+# screen_height = window.winfo_screenheight()
+# x_position = int((screen_width - window_width) / 2)
+# y_position = int((screen_height - window_height) / 2)
+# window.geometry(f"{window_width}x{window_height}+{x_position}+{y_position}")
 
-screen_width = window.winfo_screenwidth()
-screen_height = window.winfo_screenheight()
+# Add window icon support (commented out until file is available)
+# window.iconphoto(True, PhotoImage(file='logo.png'))
 
-x_position = int((screen_width - window_width) / 2)
-y_position = int((screen_height - window_height) / 2)
+# Define consistent fonts
+font_title = ('Arial', 36, 'bold')
+font_heading = ("Arial", 28, "bold")
+font_subheading = ("Arial", 22, "bold")
+font_normal = ("Arial", 16)
+font_button = ("Arial", 16, "bold")
 
-window.geometry(f"{window_width}x{window_height}+{x_position}+{y_position}")
+# Create a frame for better layout control
+main_frame = Frame(window, bg="#FFDD95", padx=40, pady=30)
+main_frame.pack(fill=BOTH, expand=True)
 
-# window.eval('tk::PlaceWindow . center')
+# Add logo placeholder (commented out until file is available)
+# logo = PhotoImage(file='logo2.png')
+# logo_label = Label(main_frame, image=logo, bg='#FFDD95')
+# logo_label.pack(pady=(0, 15))
 
+# Main title with subtle shadow effect
+title_frame = Frame(main_frame, bg="#FFDD95")
+title_frame.pack(pady=(0, 30))
 
-# Setting up the icon for the window
-# icon = PhotoImage(file='logo.png')
-# window.iconphoto(True, icon)
+title_shadow = Label(title_frame, text="HR ASSISTANCE", font=font_title, fg='#2A569F', bg='#FFDD95')
+title_shadow.grid(row=0, column=0, padx=2, pady=2)
 
-# Setting up the font
-font_hrassistance = ('Arial', 30, 'bold')
-font_welcome = ("Arial", 25, "bold")
-font_info = ("Arial", 20, "bold")
-font_getstarted = ("Arial",15,"bold")
-font_info_small = ("Arial", 15, "bold")
-font_button = ("Arial", 15, "bold")
+title_label = Label(title_frame, text="HR ASSISTANCE", font=font_title, fg='#3468C0', bg='#FFDD95')
+title_label.grid(row=0, column=0)
 
-# photo = PhotoImage(file='logo2.png')
-trip_planner_label = Label(window,
-                           text="HR ASSISTANCE",
-                           font=font_hrassistance,
-                           fg='#3468C0',
-                           bg='#FFDD95',
-                           # image=photo,  # replaces the text with image label
-                           compound='top')
-trip_planner_label.pack(padx=10, pady=20)
+# Welcome message
+welcome_label = Label(main_frame, text="Welcome to Your HR Portal", font=font_heading, fg='#3468C0', bg='#FFDD95')
+welcome_label.pack(pady=(0, 15))
 
-welcome_label = Label(window,
-                      text="Welcome,",
-                      font=font_welcome,
-                      fg='#3468C0',
-                      bg='#FFDD95', )
+# Descriptive text in a frame
+info_frame = Frame(main_frame, bg="#FFDD95", pady=15)
+info_frame.pack(fill=X)
 
-welcome_label.pack(padx=5, pady=5)
+description1 = Label(info_frame,
+                    text="Your comprehensive solution for HR management and employee services",
+                    fg='#3468C0', bg='#FFDD95', font=font_subheading)
+description1.pack()
 
-# Setting up the Label For information
-infoLabel = tk.Label(window,
-                     text="Your go-to assistance tool for HR related tasks",
-                     fg='#3468C0',
-                     bg='#FFDD95',
-                     font=font_info)
-infoLabel.pack()
+description2 = Label(info_frame,
+                    text="Streamline your HR processes with our intuitive platform",
+                    fg='#3468C0', bg='#FFDD95', font=font_normal)
+description2.pack(pady=(10, 0))
 
-infoLabel2 = tk.Label(window,
-                      text="Start making your process more efficient and reliable with us",
-                      fg='#3468C0',
-                      bg='#FFDD95',
-                      font=font_info)
-infoLabel2.pack()
+# Separator line
+separator = Frame(main_frame, height=2, width=700, bg="#3468C0")
+separator.pack(pady=25)
 
-infoLabel3 = tk.Label(window,
-                      text="Get started",
-                      fg='#3468C0',
-                      bg='#FFDD95',
-                      font=font_getstarted)
-infoLabel3.pack(pady=20)
+# Action section title
+action_label = Label(main_frame, text="Select Your Access Point", fg='#3468C0', bg='#FFDD95', font=font_subheading)
+action_label.pack(pady=(0, 20))
 
-infoLabel4 = tk.Label(window,
-                      text="HR? Click Here to Sign In",
-                      fg='#3468C0',
-                      bg='#FFDD95',
-                      font=font_info_small)
-infoLabel4.pack()
+# Create button frames for better organization
+button_frame = Frame(main_frame, bg="#FFDD95")
+button_frame.pack(pady=10)
 
-def feature_diff2_introductory_window():
-    window.withdraw()  # Hide the main window
+# HR button section
+hr_frame = Frame(button_frame, bg="#FFDD95", padx=20)
+hr_frame.grid(row=0, column=0, padx=15)
+
+hr_label = Label(hr_frame, text="HR Personnel", fg='#3468C0', bg='#FFDD95', font=font_normal)
+hr_label.pack(pady=(0, 10))
+
+def open_hr_signin():
+    window.withdraw()
     hr_signin = create_hr_login(window)
     hr_signin.protocol("WM_DELETE_WINDOW", lambda: close_windows(window, hr_signin))
 
+hr_button = Button(hr_frame,
+                text="HR Sign In",
+                foreground='white',
+                background='#D24545',
+                activeforeground='white',
+                activebackground='#B73E3E',
+                padx=20, pady=10,
+                relief=RAISED, bd=2,
+                cursor="hand2",
+                command=open_hr_signin,
+                font=font_button)
+hr_button.pack()
 
-def close_windows(main_window, popup_window):
-    popup_window.destroy()
-    main_window.destroy()
+# Employee button section
+employee_frame = Frame(button_frame, bg="#FFDD95", padx=20)
+employee_frame.grid(row=0, column=1, padx=15)
 
-# button -> for hr signin
-Entry = Button(window,
-               text="HR signin",
-               foreground='#f7f7f7',
-               background='#D24545',
-               activeforeground='#E43A19',
-               activebackground='#111F4D',
-               command=feature_diff2_introductory_window,
-               font=font_button
-               )
-Entry.pack(padx=10, pady=20)
+employee_label = Label(employee_frame, text="Employees", fg='#3468C0', bg='#FFDD95', font=font_normal)
+employee_label.pack(pady=(0, 10))
 
-infoLabel4 = tk.Label(window,
-                      text="Employee? Click Here to Sign In",
-                      fg='#3468C0',
-                      bg='#FFDD95',
-                      font=font_info_small)
-infoLabel4.pack()
-
-def feature_diff1_introductory_window():
-    window.withdraw()  # Hide the main window
+def open_employee_signin():
+    window.withdraw()
     employee_signin = create_login(window)
     employee_signin.protocol("WM_DELETE_WINDOW", lambda: close_windows(window, employee_signin))
 
+employee_button = Button(employee_frame,
+                      text="Employee Sign In",
+                      foreground='white',
+                      background='#D24545',
+                      activeforeground='white',
+                      activebackground='#B73E3E',
+                      padx=20, pady=10,
+                      relief=RAISED, bd=2,
+                      cursor="hand2",
+                      command=open_employee_signin,
+                      font=font_button)
+employee_button.pack()
 
-def close_windows(main_window, popup_window):
-    popup_window.destroy()
-    main_window.destroy()
+# Registration section
+register_frame = Frame(main_frame, bg="#FFDD95", pady=25)
+register_frame.pack()
 
+register_label = Label(register_frame, text="New Organization?", fg='#3468C0', bg='#FFDD95', font=font_normal)
+register_label.pack(pady=(10, 10))
 
-# button -> for hr signin
-Entry = Button(window,
-               text="Employee Signin",
-               foreground='#f7f7f7',
-               background='#D24545',
-               activeforeground='#E43A19',
-               activebackground='#111F4D',
-               command=feature_diff1_introductory_window,
-               font=font_button
-               )
-Entry.pack(padx=10, pady=20)
-
-infoLabel4 = tk.Label(window,
-                      text="New corporate ? Register Here",
-                      fg='#3468C0',
-                      bg='#FFDD95',
-                      font=font_info_small)
-infoLabel4.pack()
-
-
-def feature_introductory_window():
-    window.withdraw()  # Hide the main window
+def open_corporate_register():
+    window.withdraw()
     corporate_register_window = create_register(window)
     corporate_register_window.protocol("WM_DELETE_WINDOW", lambda: close_windows(window, corporate_register_window))
 
+register_button = Button(register_frame,
+                      text="Register Company",
+                      foreground='white',
+                      background='#D24545',
+                      activeforeground='white',
+                      activebackground='#B73E3E',
+                      padx=20, pady=10,
+                      relief=RAISED, bd=2,
+                      cursor="hand2",
+                      command=open_corporate_register,
+                      font=font_button)
+register_button.pack()
+
+# Footer text
+footer_label = Label(main_frame,
+                    text="© 2025 HR Assistance Portal - Simplifying Human Resources",
+                    fg='#3468C0', bg='#FFDD95', font=("Arial", 10))
+footer_label.pack(side=BOTTOM, pady=10)
 
 def close_windows(main_window, popup_window):
     popup_window.destroy()
     main_window.destroy()
-
-
-# button -> for registering new corporate
-Entry = Button(window,
-               text="Register",
-               foreground='#f7f7f7',
-               background='#D24545',
-               activeforeground='#E43A19',
-               activebackground='#111F4D',
-               command=feature_introductory_window,
-               font=font_button
-               )
-Entry.pack(padx=10, pady=20)
-
-
-# Source :- YouTube
-
-# def feature_display_window():
-#     window.withdraw()  # Hide the main window
-#     loginsignup_window = create_loginsignup_window(window)
-#     loginsignup_window.protocol("WM_DELETE_WINDOW", lambda: close_windows(window, loginsignup_window))
-
-
-def close_windows(main_window, popup_window):
-    popup_window.destroy()
-    main_window.destroy()
-
-
-# Setting up the entry button
-
-# Entry = Button(window,
-#                text="Start Planning",
-#                foreground='#f7f7f7',
-#                background='#D24545',
-#                activeforeground='#E43A19',
-#                activebackground='#111F4D',
-#                # command=feature_display_window,
-#                font=font_button
-#                )
-# Entry.pack(padx=10, pady=20)
 
 window.mainloop()

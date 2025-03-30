@@ -7,6 +7,7 @@ from recruitment import recruitment_management
 from performane_management import performance_management
 from upskilling import upskilling_management
 from greviance_check import grievance_check
+from document_store import document_storage
 
 
 def create_dashboard(parent, company_id=None):
@@ -225,19 +226,26 @@ def create_dashboard(parent, company_id=None):
         feature_skillup_management
     )
 
+    def feature_document_management():
+        dashboard_window.withdraw()
+        document_window = document_storage(dashboard_window)
+        if document_window:
+            document_window.protocol("WM_DELETE_WINDOW", lambda: close_windows(dashboard_window, document_window))
+
     # Future Feature 1 - Placeholder
     create_module_section(
         left_column,
-        "Future feature for enhanced HR operations",
-        "Future Feature 1"
+        "Store your organizations document here",
+        "Document Storage",
+        feature_document_management
     )
 
-    # Future Feature 2 - Placeholder
-    create_module_section(
-        right_column,
-        "Additional HR capabilities coming soon",
-        "Future Feature 2"
-    )
+    # # Future Feature 2 - Placeholder
+    # create_module_section(
+    #     right_column,
+    #     "Additional HR capabilities coming soon",
+    #     "Future Feature 2"
+    # )
 
     return dashboard_window
 
